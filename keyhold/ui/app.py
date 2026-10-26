@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from PySide6.QtCore import QEvent, QObject, Qt, QTimer
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -299,12 +300,21 @@ class MainWindow(QMainWindow):
         super().closeEvent(event)
 
 
+ICON_PATH = Path(__file__).resolve().parent.parent / "assets" / "icon.png"
+
+
 def run(vault_path: str | None = None) -> int:
+    if sys.platform == "win32":
+        # Group under our own taskbar entry and icon instead of python.exe's.
+        import ctypes
+
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("Keyhold")
     QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     app = QApplication.instance() or QApplication(sys.argv)
     app.setApplicationName("Keyhold")
     app.setApplicationVersion(__version__)
     app.setStyle("Fusion")
+    app.setWindowIcon(QIcon(str(ICON_PATH)))
     app.setStyleSheet(theme.STYLESHEET)
     window = MainWindow(vault_path)
     window.show()

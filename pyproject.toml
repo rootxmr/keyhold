@@ -46,6 +46,7 @@ include = ["keyhold*"]
 
 [tool.setuptools.package-data]
 "keyhold.wordlists" = ["*.txt"]
+"keyhold.assets" = ["icon.svg", "icon.png", "icon.ico"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
