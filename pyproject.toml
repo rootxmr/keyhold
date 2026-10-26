@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "keyhold"
+dynamic = ["version"]
+description = "An offline, open-source password manager. Argon2id + XChaCha20-Poly1305, one local file, no cloud."
+readme = "README.md"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+requires-python = ">=3.10"
+keywords = ["password manager", "passphrase", "encryption", "offline", "argon2", "bip39"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "PyNaCl>=1.5",
+    "PySide6>=6.5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+keyhold-cli = "keyhold.__main__:main"
+
+[project.gui-scripts]
+keyhold = "keyhold.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/rootxmr/keyhold"
+Issues = "https://github.com/rootxmr/keyhold/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "keyhold.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["keyhold*"]
+
+[tool.setuptools.package-data]
+"keyhold.wordlists" = ["*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
